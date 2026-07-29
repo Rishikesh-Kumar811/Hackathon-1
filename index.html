@@ -26,6 +26,20 @@
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8fafc" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
     <meta name="color-scheme" content="light dark" />
+    <!-- Prevent White Flash on Load -->
+    <style>
+      body { background-color: #f8fafc; }
+      html.dark body { background-color: #09090b; }
+    </style>
+    <script>
+      (function() {
+        try {
+          var isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) { document.documentElement.classList.add('dark'); document.body.style.backgroundColor = '#09090b'; }
+          else { document.documentElement.classList.remove('dark'); document.body.style.backgroundColor = '#f8fafc'; }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="no-scrollbar">
     <div id="root"></div>

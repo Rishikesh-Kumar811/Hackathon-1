@@ -80,9 +80,9 @@ function App() {
   return (
     <div ref={wrapperRef} className="flex flex-col relative overflow-hidden bg-[#f8fafc] dark:bg-[#09090b] min-h-screen py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-700">
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/15 blur-[120px] mix-blend-multiply dark:mix-blend-screen animate-pulse duration-[8000ms]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/20 dark:bg-purple-600/15 blur-[120px] mix-blend-multiply dark:mix-blend-screen"></div>
-        <div className="absolute top-[40%] left-[20%] w-[30%] h-[30%] rounded-full bg-blue-300/10 dark:bg-blue-500/10 blur-[100px] mix-blend-multiply dark:mix-blend-screen"></div>
+        <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-400/20 dark:bg-indigo-600/15 blur-[120px] animate-pulse duration-[8000ms] transform-gpu will-change-transform"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/20 dark:bg-purple-600/15 blur-[120px] transform-gpu will-change-transform"></div>
+        <div className="absolute top-[40%] left-[20%] w-[30%] h-[30%] rounded-full bg-blue-300/10 dark:bg-blue-500/10 blur-[100px] transform-gpu will-change-transform"></div>
       </div>
 
       <div className="w-full max-w-[1536px] mx-auto flex flex-col">
