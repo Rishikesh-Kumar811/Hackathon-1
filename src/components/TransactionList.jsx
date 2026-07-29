@@ -77,7 +77,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
   };
 
   return (
-    <div 
+    <li 
       ref={itemRef}
       className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition duration-500 ease-out overflow-hidden group/item
         ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-[0_8px_20px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:border-slate-300 dark:hover:border-white/10 hover:-translate-y-0.5'}`}
@@ -100,12 +100,12 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
               className={`w-full bg-slate-50 dark:bg-slate-900/50 border rounded-lg px-4 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none transition duration-300 ${warning ? 'border-danger focus:border-danger focus:ring-0 bg-danger/5 dark:bg-danger/10' : 'border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary/30'}`}
               placeholder="Transaction name"
             />
-            <div className={`overflow-hidden transition duration-300 ease-in-out ${warning ? 'max-h-24 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}`}>
-              <div className="flex items-center gap-1.5 px-1">
-                <span className="flex items-center justify-center shrink-0 w-4 h-4">
+            <div className={`overflow-hidden transition duration-300 ease-in-out ${warning ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0 mt-0'}`}>
+              <div className="flex items-center gap-1.5 px-1 py-[2px]">
+                <span className="flex items-center justify-center shrink-0 w-4 h-4 translate-y-[0.08px] md:translate-y-0">
                   <AlertCircle className="w-full h-full text-danger" strokeWidth={2} />
                 </span>
-                <p className="m-0 p-0 pt-[1px] pb-[2px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{warning}</p>
+                <p className="m-0 p-0 pt-[1px] pb-[2px] -translate-y-[0.02px] md:-translate-y-[0.37px] lg:-translate-y-[1.1px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap">{warning}</p>
               </div>
             </div>
           </div>
@@ -135,9 +135,9 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
             />
           </div>
         ) : (
-          <span className={`font-bold transition duration-300 text-lg flex items-center ${deleteStage >= 2 ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${transaction.type === 'income' ? 'text-success drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'text-danger drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]'}`}>
-            <span className="mr-[0.3em]">{transaction.type === 'income' ? '+' : '-'}</span>
-            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(transaction.amount).replace(/^(\D+)/, '$1 ')}
+          <span className={`font-bold transition duration-300 text-lg flex items-center transform-gpu ${deleteStage >= 2 ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${transaction.type === 'income' ? 'text-success [text-shadow:0_0_8px_rgba(16,185,129,0.4)]' : 'text-danger [text-shadow:0_0_8px_rgba(239,68,68,0.4)]'}`}>
+            <span className="mr-1.5">{transaction.type === 'income' ? '+' : '-'}</span>
+            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(transaction.amount).replace('₹', '₹ ')}
           </span>
         )}
         
@@ -176,7 +176,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
           )}
         </div>
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -223,8 +223,8 @@ const TransactionList = () => {
   const visibleTransactions = transactions.slice(startIndex);
 
   return (
-    <div className="glass-card p-6 h-full flex flex-col">
-      <h3 className="text-xl font-bold mb-6 text-slate-800 dark:text-slate-100 transition-colors">Recent Transactions</h3>
+    <section aria-labelledby="transaction-list-heading" className="glass-card p-6 h-full flex flex-col">
+      <h2 id="transaction-list-heading" className="text-xl font-bold mb-6 text-slate-800 dark:text-slate-100 transition-colors">Recent Transactions</h2>
       
       <div className="flex-1 overflow-y-auto pr-2 no-scrollbar">
         {transactions.length === 0 ? (
@@ -233,10 +233,20 @@ const TransactionList = () => {
             <p className="text-sm mt-1">Add one to get started!</p>
           </div>
         ) : (
-          <div className="flex flex-col-reverse">
+          <ul role="list" className="flex flex-col-reverse m-0 p-0 list-none">
             {visibleCount < transactions.length && (
-              <div ref={observerRef} className="h-10 w-full flex items-center justify-center py-6">
-                 <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+              <div ref={observerRef} className="h-1 w-full shrink-0 pointer-events-none" aria-hidden="true"></div>
+            )}
+            {isPending && (
+              <div className="w-full shrink-0 flex flex-col items-center justify-center py-8 space-y-3">
+                <div className="relative flex items-center justify-center">
+                  <div className="absolute w-10 h-10 rounded-full animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 bg-primary transform-gpu will-change-transform"></div>
+                  <svg className="relative w-8 h-8 animate-spin text-primary transform-gpu will-change-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3"></circle>
+                    <path className="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold text-primary tracking-widest uppercase animate-pulse opacity-80 transform-gpu will-change-[opacity]">Loading</span>
               </div>
             )}
             {visibleTransactions.map((transaction) => (
@@ -247,10 +257,10 @@ const TransactionList = () => {
                 onUpdate={handleUpdate}
               />
             ))}
-          </div>
+          </ul>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

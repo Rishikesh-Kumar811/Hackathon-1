@@ -8,7 +8,7 @@ const formatCurrency = (amount) => {
     style: 'currency',
     currency: 'INR',
     maximumFractionDigits: 0,
-  }).format(amount).replace(/^(\D+)/, '$1 ');
+  }).format(amount).replace('-', '- ').replace('₹', '₹ ');
 };
 
 const DashboardStats = () => {
@@ -18,11 +18,11 @@ const DashboardStats = () => {
   const ratioColor = expenseRatio < 50 ? 'bg-success' : expenseRatio < 80 ? 'bg-yellow-500' : 'bg-danger';
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <section aria-label="Financial Summary" className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
       
       {/* Balance Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(99,102,241,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
+      <article className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(99,102,241,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
+        <div aria-hidden="true" className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Balance</p>
@@ -41,11 +41,11 @@ const DashboardStats = () => {
           </div>
           <span className="leading-[24px]">Available Funds</span>
         </div>
-      </div>
+      </article>
 
       {/* Income Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-success/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
+      <article className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
+        <div aria-hidden="true" className="absolute top-0 right-0 w-48 h-48 bg-success/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Income</p>
@@ -64,11 +64,11 @@ const DashboardStats = () => {
           </div>
           <span className="leading-[24px]">Earnings this period</span>
         </div>
-      </div>
+      </article>
 
       {/* Expense Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(239,68,68,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
-        <div className="absolute top-0 right-0 w-48 h-48 bg-danger/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
+      <article className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(239,68,68,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
+        <div aria-hidden="true" className="absolute top-0 right-0 w-48 h-48 bg-danger/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Expense</p>
@@ -104,9 +104,9 @@ const DashboardStats = () => {
             <span className="leading-[24px]">No income recorded</span>
           </div>
         )}
-      </div>
+      </article>
 
-    </div>
+    </section>
   );
 };
 

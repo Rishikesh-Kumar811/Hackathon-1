@@ -48,12 +48,12 @@ const TransactionForm = () => {
   };
 
   return (
-    <div className="glass-card p-6 flex flex-col">
+    <section aria-labelledby="transaction-form-heading" className="glass-card p-6 flex flex-col">
       <div>
-        <h3 className="text-xl font-bold mb-6 flex items-center text-slate-800 dark:text-slate-100 transition-colors">
-          <PlusCircle className="mr-2 text-primary w-6 h-6" />
+        <h2 id="transaction-form-heading" className="text-xl font-bold mb-6 flex items-center text-slate-800 dark:text-slate-100 transition-colors">
+          <PlusCircle aria-hidden="true" className="mr-2 text-primary w-6 h-6" />
           Add New Transaction
-        </h3>
+        </h2>
         <form id="transaction-form" onSubmit={onSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1 transition-colors">Transaction Title</label>
@@ -68,12 +68,12 @@ const TransactionForm = () => {
               aria-invalid={warning ? 'true' : 'false'}
               aria-describedby={warning ? "transaction-title-error" : undefined}
             />
-            <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="flex items-center gap-1.5 px-1">
-                <span className="flex items-center justify-center shrink-0 w-4 h-4">
+            <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-1.5 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="flex items-center gap-1.5 px-1 py-[2px]">
+                <span className="flex items-center justify-center shrink-0 w-4 h-4 translate-y-[0.08px] md:translate-y-0">
                   <AlertCircle className="w-full h-full text-danger" strokeWidth={2} />
                 </span>
-                <p className="m-0 p-0 pt-[1px] pb-[2px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{warning}</p>
+                <p className="m-0 p-0 pt-[1px] pb-[2px] -translate-y-[1px] md:-translate-y-[0.34px] lg:-translate-y-[1.17px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap">{warning}</p>
               </div>
             </div>
           </div>
@@ -118,7 +118,7 @@ const TransactionForm = () => {
           <PlusCircle className="w-5 h-5 transition-transform duration-500 group-hover:rotate-180 flex-shrink-0" />
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 
