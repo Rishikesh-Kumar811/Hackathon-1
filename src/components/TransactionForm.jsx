@@ -96,14 +96,14 @@ const TransactionForm = () => {
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
-                className={`py-2.5 rounded-xl font-medium focus:outline-none focus:ring-0 transition-all duration-300 cursor-pointer ${type === 'income' ? 'bg-success/10 text-success border border-success/30 shadow-[0_2px_10px_-3px_rgba(16,185,129,0.3)] scale-[1.02]' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                className={`py-2.5 rounded-xl font-medium focus:outline-none focus:ring-0 transition duration-300 cursor-pointer ${type === 'income' ? 'bg-success/10 text-success border border-success/30 shadow-[0_2px_10px_-3px_rgba(16,185,129,0.3)] scale-[1.02]' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
                 onClick={() => setType(type === 'income' ? '' : 'income')}
               >
                 Income
               </button>
               <button
                 type="button"
-                className={`py-2.5 rounded-xl font-medium focus:outline-none focus:ring-0 transition-all duration-300 cursor-pointer ${type === 'expense' ? 'bg-danger/10 text-danger border border-danger/30 shadow-[0_2px_10px_-3px_rgba(239,68,68,0.3)] scale-[1.02]' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
+                className={`py-2.5 rounded-xl font-medium focus:outline-none focus:ring-0 transition duration-300 cursor-pointer ${type === 'expense' ? 'bg-danger/10 text-danger border border-danger/30 shadow-[0_2px_10px_-3px_rgba(239,68,68,0.3)] scale-[1.02]' : 'bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`}
                 onClick={() => setType(type === 'expense' ? '' : 'expense')}
               >
                 Expense

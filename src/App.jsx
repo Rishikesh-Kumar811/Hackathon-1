@@ -1,8 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import DashboardStats from './components/DashboardStats';
-import TransactionForm from './components/TransactionForm';
-import TransactionList from './components/TransactionList';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { Activity, Sun, Moon } from 'lucide-react';
+
+const DashboardStats = lazy(() => import('./components/DashboardStats'));
+const TransactionForm = lazy(() => import('./components/TransactionForm'));
+const TransactionList = lazy(() => import('./components/TransactionList'));
+
+const LoadingSkeleton = () => (
+  <div className="w-full h-48 rounded-3xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse glass-card flex items-center justify-center">
+    <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+  </div>
+);
 
 function App() {
   const wrapperRef = useRef(null);
@@ -113,16 +120,18 @@ function App() {
           </button>
         </header>
 
-        <DashboardStats />
+        <Suspense fallback={<LoadingSkeleton />}>
+          <DashboardStats />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6">
-          <div className="lg:col-span-1 self-start">
-            <TransactionForm />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-6 mt-10">
+            <div className="lg:col-span-1 self-start">
+              <TransactionForm />
+            </div>
+            <div className="lg:col-span-2">
+              <TransactionList />
+            </div>
           </div>
-          <div className="lg:col-span-2">
-            <TransactionList />
-          </div>
-        </div>
+        </Suspense>
         
         <footer className="mt-6 text-center text-slate-500 dark:text-slate-400 text-sm pb-8 transition-colors">
           <p>Built with React, Redux Toolkit & Tailwind CSS</p>

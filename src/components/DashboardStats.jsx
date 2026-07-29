@@ -21,12 +21,12 @@ const DashboardStats = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
       
       {/* Balance Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(99,102,241,0.1)] transition-all duration-700 hover:-translate-y-2 cursor-default">
+      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(99,102,241,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
         <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Balance</p>
-            <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-xl shadow-inner transition-all duration-500 text-primary group-hover:bg-primary group-hover:text-white group-hover:shadow-primary/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
+            <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-xl shadow-inner transition duration-500 text-primary group-hover:bg-primary group-hover:text-white group-hover:shadow-primary/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
               <Wallet className="w-5 h-5" strokeWidth={2.5} />
             </div>
           </div>
@@ -44,12 +44,12 @@ const DashboardStats = () => {
       </div>
 
       {/* Income Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition-all duration-700 hover:-translate-y-2 cursor-default">
+      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(16,185,129,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
         <div className="absolute top-0 right-0 w-48 h-48 bg-success/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Income</p>
-            <div className="p-3 bg-success/10 dark:bg-success/20 rounded-xl shadow-inner transition-all duration-500 text-success group-hover:bg-success group-hover:text-white group-hover:shadow-success/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
+            <div className="p-3 bg-success/10 dark:bg-success/20 rounded-xl shadow-inner transition duration-500 text-success group-hover:bg-success group-hover:text-white group-hover:shadow-success/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
               <TrendingUp className="w-5 h-5" strokeWidth={2.5} />
             </div>
           </div>
@@ -67,12 +67,12 @@ const DashboardStats = () => {
       </div>
 
       {/* Expense Card */}
-      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(239,68,68,0.1)] transition-all duration-700 hover:-translate-y-2 cursor-default">
+      <div className="relative p-7 glass-card overflow-hidden group hover:shadow-[0_20px_40px_rgba(239,68,68,0.1)] transition duration-700 hover:-translate-y-2 cursor-default">
         <div className="absolute top-0 right-0 w-48 h-48 bg-danger/10 rounded-full blur-3xl -mr-24 -mt-24 transition-transform duration-700 group-hover:scale-150"></div>
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase">Total Expense</p>
-            <div className="p-3 bg-danger/10 dark:bg-danger/20 rounded-xl shadow-inner transition-all duration-500 text-danger group-hover:bg-danger group-hover:text-white group-hover:shadow-danger/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
+            <div className="p-3 bg-danger/10 dark:bg-danger/20 rounded-xl shadow-inner transition duration-500 text-danger group-hover:bg-danger group-hover:text-white group-hover:shadow-danger/50 group-hover:scale-110 group-hover:rotate-3 flex-shrink-0">
               <TrendingDown className="w-5 h-5" strokeWidth={2.5} />
             </div>
           </div>
@@ -91,8 +91,8 @@ const DashboardStats = () => {
             
             <div className="w-12 sm:w-24 md:w-12 lg:w-24 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden shadow-inner flex-shrink-0" aria-label={`Expense ratio is ${expenseRatio.toFixed(2)}%`}>
               <div 
-                className={`h-full ${ratioColor} transition-all duration-1000 ease-out`} 
-                style={{ width: `${expenseRatio}%` }}
+                className={`h-full w-full ${ratioColor} transition-transform duration-1000 ease-out origin-left transform-gpu`} 
+                style={{ transform: `scaleX(${expenseRatio / 100})` }}
               ></div>
             </div>
           </div>
