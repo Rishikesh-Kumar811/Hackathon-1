@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useTransition } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions, deleteTransaction, updateTransaction } from '../redux/transactionSlice';
 import { ArrowUpRight, ArrowDownRight, Edit2, Check, X, AlertCircle } from 'lucide-react';
@@ -81,7 +81,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
       ref={itemRef}
       className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition duration-500 ease-out overflow-hidden group/item
         ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-[0_8px_20px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:border-slate-300 dark:hover:border-white/10 hover:-translate-y-0.5'}`}
-      style={{ contentVisibility: 'auto', containIntrinsicSize: '0 100px' }}
+      style={{ contain: 'content' }}
     >
       <div 
         className={`flex items-start space-x-4 w-full sm:w-auto sm:flex-1 min-w-0 transition duration-500 transform ease-out origin-left
@@ -100,12 +100,12 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
               className={`w-full bg-slate-50 dark:bg-slate-900/50 border rounded-lg px-4 py-2 text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none transition duration-300 ${warning ? 'border-danger focus:border-danger focus:ring-0 bg-danger/5 dark:bg-danger/10' : 'border-slate-300 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary/30'}`}
               placeholder="Transaction name"
             />
-            <div className={`overflow-hidden transition duration-300 ease-in-out ${warning ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0 mt-0'}`}>
-              <div className="flex items-start gap-1.5 px-1">
-                <div className="flex items-center h-[18px] flex-shrink-0 mt-[1.05px] sm:mt-[0.5px] lg:mt-[0.4px]">
-                  <AlertCircle className="w-3.5 h-3.5 text-danger" strokeWidth={2.5} />
-                </div>
-                <p className="text-danger text-[11.5px] sm:text-[12px] font-semibold leading-[18px] tracking-tighter sm:tracking-tight whitespace-nowrap sm:whitespace-normal">{warning}</p>
+            <div className={`overflow-hidden transition duration-300 ease-in-out ${warning ? 'max-h-24 opacity-100 mt-2' : 'max-h-0 opacity-0 mt-0'}`}>
+              <div className="flex items-center gap-1.5 px-1">
+                <span className="flex items-center justify-center shrink-0 w-4 h-4">
+                  <AlertCircle className="w-full h-full text-danger" strokeWidth={2} />
+                </span>
+                <p className="m-0 p-0 pt-[1px] pb-[2px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{warning}</p>
               </div>
             </div>
           </div>
@@ -186,12 +186,15 @@ const TransactionList = () => {
   
   const [visibleCount, setVisibleCount] = useState(30);
   const observerRef = useRef(null);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setVisibleCount((prevCount) => Math.min(prevCount + 30, transactions.length));
+          startTransition(() => {
+            setVisibleCount((prevCount) => Math.min(prevCount + 30, transactions.length));
+          });
         }
       },
       { threshold: 0.1, rootMargin: '800px' }

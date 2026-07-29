@@ -68,12 +68,12 @@ const TransactionForm = () => {
               aria-invalid={warning ? 'true' : 'false'}
               aria-describedby={warning ? "transaction-title-error" : undefined}
             />
-            <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-1.5 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="flex items-start gap-1.5 px-1">
-                <div className="flex items-center h-[18px] flex-shrink-0 mt-[1.1px] sm:mt-[0.3px] lg:mt-[0.4px]">
-                  <AlertCircle className="w-3.5 h-3.5 text-danger" strokeWidth={2.5} />
-                </div>
-                <p className="text-danger text-[12px] sm:text-[12px] font-semibold leading-[18px] tracking-tighter sm:tracking-tight whitespace-nowrap sm:whitespace-normal">{warning}</p>
+            <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-2 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <div className="flex items-center gap-1.5 px-1">
+                <span className="flex items-center justify-center shrink-0 w-4 h-4">
+                  <AlertCircle className="w-full h-full text-danger" strokeWidth={2} />
+                </span>
+                <p className="m-0 p-0 pt-[1px] pb-[2px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">{warning}</p>
               </div>
             </div>
           </div>
