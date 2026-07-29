@@ -49,4 +49,12 @@ Hackathon.
    npm run build
    ```
 
-*Check out the `Notion_Docs/Hackathon_Submission.md` file for full documentation and Redux Toolkit learning guides.*
+---
+
+## 📚 Complete Project Documentation
+
+I have created a comprehensive **Master Guide** documenting my complete learning journey with Redux Toolkit for this Mini Hackathon. 
+
+👉 **[View the Full Notion Documentation Here](https://app.notion.com/p/Hackathon_Submission-3acd6547217281d5bef7cb453b4b5db1?source=copy_link)** 👈
+
+*Includes Custom Illustrations, Step-by-Step Code Breakdowns, and the Video Explanation Script.*
