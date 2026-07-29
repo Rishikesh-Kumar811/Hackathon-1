@@ -51,11 +51,11 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
     const hasSpecialChars = /[^a-zA-Z0-9\s]/.test(val);
     
     if (hasNumbers && hasSpecialChars) {
-      setWarning('Letters only. No numbers and special characters.');
+      setWarning('Letters only (no numbers or symbols).');
     } else if (hasNumbers) {
-      setWarning('Letters only. No numbers.');
+      setWarning('Letters only (no numbers).');
     } else if (hasSpecialChars) {
-      setWarning('Letters only. No special characters.');
+      setWarning('Letters only (no symbols).');
     } else {
       setWarning('');
     }
@@ -79,8 +79,8 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
   return (
     <div 
       ref={itemRef}
-      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 shadow-sm transition-all duration-500 ease-out overflow-hidden group/item
-        ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-md hover:border-slate-200 dark:hover:border-slate-600'}`}
+      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out overflow-hidden group/item
+        ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-[0_8px_20px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:border-slate-300 dark:hover:border-white/10 hover:-translate-y-0.5'}`}
     >
       <div 
         className={`flex items-start space-x-4 w-full sm:w-auto sm:flex-1 min-w-0 transition-all duration-500 transform ease-out origin-left
@@ -101,10 +101,10 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
             />
             <div className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 opacity-100 mt-1.5' : 'max-h-0 opacity-0 mt-0'}`}>
               <div className="flex items-start gap-1.5 px-1">
-                <div className="flex items-center h-[18px] flex-shrink-0">
-                  <AlertCircle className="w-3.5 h-3.5 text-danger mt-[0.2px] md:mt-[1px]" strokeWidth={2.5} />
+                <div className="flex items-center h-[18px] flex-shrink-0 mt-[1.05px] sm:mt-[0.5px] lg:mt-[0.4px]">
+                  <AlertCircle className="w-3.5 h-3.5 text-danger" strokeWidth={2.5} />
                 </div>
-                <p className="text-danger text-[12px] font-semibold leading-[18px]">{warning}</p>
+                <p className="text-danger text-[11.5px] sm:text-[12px] font-semibold leading-[18px] tracking-tighter sm:tracking-tight whitespace-nowrap sm:whitespace-normal">{warning}</p>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
         
         {isEditing ? (
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">$</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-bold">₹</span>
             <input 
               type="number" 
               step="0.01" 
@@ -134,8 +134,9 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
             />
           </div>
         ) : (
-          <span className={`font-bold transition-all duration-300 ${deleteStage >= 2 ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${transaction.type === 'income' ? 'text-success' : 'text-danger'}`}>
-            {transaction.type === 'income' ? '+' : '-'}{new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(transaction.amount)}
+          <span className={`font-bold transition-all duration-300 text-lg flex items-center ${deleteStage >= 2 ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${transaction.type === 'income' ? 'text-success drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]' : 'text-danger drop-shadow-[0_0_8px_rgba(239,68,68,0.3)]'}`}>
+            <span className="mr-[0.3em]">{transaction.type === 'income' ? '+' : '-'}</span>
+            {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(transaction.amount).replace(/^(\D+)/, '$1 ')}
           </span>
         )}
         

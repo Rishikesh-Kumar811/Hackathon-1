@@ -17,11 +17,11 @@ const TransactionForm = () => {
     const hasSpecialChars = /[^a-zA-Z0-9\s]/.test(val);
     
     if (hasNumbers && hasSpecialChars) {
-      return 'Letters only. No numbers and special characters.';
+      return 'Letters only (no numbers or symbols).';
     } else if (hasNumbers) {
-      return 'Letters only. No numbers.';
+      return 'Letters only (no numbers).';
     } else if (hasSpecialChars) {
-      return 'Letters only. No special characters.';
+      return 'Letters only (no symbols).';
     }
     return '';
   };
@@ -70,16 +70,16 @@ const TransactionForm = () => {
             />
             <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-1.5 opacity-100' : 'max-h-0 opacity-0'}`}>
               <div className="flex items-start gap-1.5 px-1">
-                <div className="flex items-center h-[18px] flex-shrink-0">
-                  <AlertCircle className="w-4 h-4 text-danger mt-[1.2px] md:mt-[1.92px]" strokeWidth={2.5} />
+                <div className="flex items-center h-[18px] flex-shrink-0 mt-[1.1px] sm:mt-[0.3px] lg:mt-[0.4px]">
+                  <AlertCircle className="w-3.5 h-3.5 text-danger" strokeWidth={2.5} />
                 </div>
-                <p className="text-danger text-[13px] font-semibold leading-[18px]">{warning}</p>
+                <p className="text-danger text-[12px] sm:text-[12px] font-semibold leading-[18px] tracking-tighter sm:tracking-tight whitespace-nowrap sm:whitespace-normal">{warning}</p>
               </div>
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1 transition-colors">Amount ($)</label>
+            <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1 transition-colors">Amount (₹)</label>
             <input
               type="number"
               step="0.01"
@@ -113,9 +113,9 @@ const TransactionForm = () => {
         </form>
       </div>
       <div className="mt-8 flex justify-end">
-        <button form="transaction-form" type="submit" disabled={!text.trim() || !amount || !type || !!warning} className="btn-primary rounded-full px-6 py-2.5 sm:px-8 sm:py-3 shadow-lg shadow-primary/30 inline-flex items-center justify-center gap-2 group cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/50 disabled:bg-slate-100 dark:disabled:bg-slate-800 disabled:text-slate-400 disabled:border disabled:border-slate-200 dark:disabled:border-slate-700 disabled:shadow-none disabled:hover:scale-100 disabled:hover:translate-y-0 disabled:cursor-not-allowed">
-          <span className="font-semibold tracking-wide text-[14px] sm:text-[15px] leading-none">Save Transaction</span>
-          <PlusCircle className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] transition-transform duration-300 group-hover:rotate-90 flex-shrink-0" />
+        <button form="transaction-form" type="submit" disabled={!text.trim() || !amount || !type || !!warning} className="btn-primary inline-flex items-center justify-center gap-2 group w-full sm:w-auto text-[15px] sm:text-[16px] tracking-wide">
+          <span>Save Transaction</span>
+          <PlusCircle className="w-5 h-5 transition-transform duration-500 group-hover:rotate-180 flex-shrink-0" />
         </button>
       </div>
     </div>
