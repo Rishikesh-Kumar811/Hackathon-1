@@ -1,60 +1,25 @@
-# 🚀 Expense Tracker (Redux Toolkit Mini Hackathon)
+# 💸 FinTrack - Modern Expense Tracker
 
-A highly polished, 2026-standard Expense & Income tracking application built for the Sheryians Coding School Mini
-Hackathon.
+A fast, lightweight, and modern expense tracking application built for the **Sheryians Coding School Mini Hackathon**. The main objective of this project was to independently explore and implement **Redux Toolkit** from scratch.
+
+## 🚀 Live Demo & Documentation
+- **Live Project:** [https://rishifintrack.dev/](https://rishifintrack.dev/)
+- **Complete Redux Master Guide:** [Notion Documentation](https://round-doom-f43.notion.site/Redux_Master_Guide-3acd654721728106a193c33ad4803757?source=copy_link)
 
 ## ✨ Features
+- **Redux State Management:** Completely powered by Redux Toolkit (Store, Slices, Actions, Reducers).
+- **LocalStorage Sync:** Data is never lost on refresh. The Redux store automatically syncs with the browser's local storage.
+- **GPU-Accelerated Animations:** Custom 4-stage staggered delete animations using Tailwind `transform-gpu` for a zero-lag experience on all devices.
+- **Modern UI:** Clean, glassmorphism design built with the latest Tailwind CSS v4.
 
-- **Premium UI:** Designed with subtle colors, sleek borders, and 2026 design standards using Tailwind CSS.
-- **Redux Toolkit Integration:** Centralized state management for adding, updating, and deleting transactions.
-- **Fluid Animations:** Custom 4-stage delete animations built natively for an incredibly smooth UX.
-- **Responsive & Touch-Friendly:** Perfect optical alignment across mobile, tablet, and desktop.
+## 🛠️ Tech Stack
+- **Frontend:** React (Vite)
+- **State Management:** Redux Toolkit (`react-redux`, `@reduxjs/toolkit`)
+- **Styling:** Tailwind CSS v4
+- **Icons:** Lucide React
 
-## 🛠️ Tech Stack & Versions
-- **Node.js:** v18.0.0 or higher
-- **React.js:** v19.2.7 (with Vite v8.1.1)
-- **Redux Toolkit:** `@reduxjs/toolkit` v2.12.0
-- **React Redux:** `react-redux` v9.3.0
-- **Styling:** Tailwind CSS v4.3.3
-- **Icons:** Lucide React v1.27.0
-
-## 🚀 Step-by-Step Installation & Setup Guide
-
-1. **Prerequisites:**
-   Make sure you have Node.js (v18+) and npm installed on your machine.
-   ```bash
-   node -v
-   npm -v
-   ```
-
-2. **Clone the Repository:**
-   ```bash
-   git clone <YOUR_GITHUB_REPOSITORY_URL>
-   cd winner
-   ```
-
-3. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-
-4. **Run Development Server:**
-   ```bash
-   npm run dev
-   ```
-   Open `http://localhost:5173` in your browser.
-
-5. **Build for Production:**
-   ```bash
-   npm run build
-   ```
+## 💡 What I Learned
+Through this hackathon, I successfully learned how to avoid "Prop Drilling" by setting up a centralized Redux Store, creating Slices to manage specific data rules, and connecting React components seamlessly using `useDispatch` and `useSelector`.
 
 ---
-
-## 📚 Complete Project Documentation
-
-I have created a comprehensive **Master Guide** documenting my complete learning journey with Redux Toolkit for this Mini Hackathon. 
-
-👉 **[View the Full Notion Documentation Here](https://app.notion.com/p/Hackathon_Submission-3acd6547217281d5bef7cb453b4b5db1?source=copy_link)** 👈
-
-*Includes Custom Illustrations, Step-by-Step Code Breakdowns, and the Video Explanation Script.*
+*Built with ❤️ by Rishikesh Kumar for the Mini Hackathon Challenge.*

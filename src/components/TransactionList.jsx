@@ -30,19 +30,22 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
       setDeleteStage(2);
       
       setTimeout(() => {
-        setDeleteStage(4);
+        setDeleteStage(3);
         
         setTimeout(() => {
-          onRemove(transaction.id);
-        }, 500);
-      }, 600);
-    }, 500);
+          setDeleteStage(4);
+          
+          setTimeout(() => {
+            onRemove(transaction.id);
+          }, 800);
+        }, 800);
+      }, 800);
+    }, 800);
   };
 
   const getLidClass = () => {
     if (deleteStage === 1 || deleteStage === 2) return '-translate-y-1.5 rotate-12';
-    if (deleteStage >= 3) return 'translate-y-0 rotate-0';
-    return 'group-hover/btn:-translate-y-1.5 group-hover/btn:rotate-12';
+    return 'translate-y-0 rotate-0';
   };
 
   const handleTextChange = (e) => {
@@ -79,12 +82,12 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
   return (
     <li 
       ref={itemRef}
-      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition duration-500 ease-out overflow-hidden group/item
+      className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition-all duration-500 ease-out overflow-hidden group/item
         ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-[0_8px_20px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:border-slate-300 dark:hover:border-white/10 hover:-translate-y-0.5'}`}
       style={{ contain: 'content' }}
     >
       <div 
-        className={`flex items-start space-x-4 w-full sm:w-auto sm:flex-1 min-w-0 transition duration-500 transform ease-out origin-left
+        className={`flex items-start space-x-4 w-full sm:w-auto sm:flex-1 min-w-0 transition-all duration-500 transform-gpu ease-out origin-left
           ${deleteStage >= 2 ? '-translate-x-8 opacity-0 scale-95' : 'translate-x-0 opacity-100 scale-100'}`}
       >
         <div className={`p-2.5 rounded-lg shadow-sm flex-shrink-0 ${transaction.type === 'income' ? 'bg-success/10 text-success' : 'bg-danger/10 text-danger'}`}>
@@ -121,7 +124,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
         )}
       </div>
       
-      <div className={`flex items-center justify-between sm:justify-end space-x-3 w-full sm:w-auto sm:ml-2 transition duration-500 ease-out flex-shrink-0 ${deleteStage >= 3 ? 'opacity-0 scale-95 translate-x-4' : 'opacity-100 scale-100 translate-x-0'}`}>
+      <div className={`flex items-center justify-between sm:justify-end space-x-3 w-full sm:w-auto sm:ml-2 transition-all duration-500 transform-gpu ease-out flex-shrink-0 ${deleteStage >= 4 ? 'opacity-0 scale-95 translate-x-4' : 'opacity-100 scale-100 translate-x-0'}`}>
         
         {isEditing ? (
           <div className="relative">
@@ -167,8 +170,8 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
                 className="group/btn relative flex h-10 w-10 items-center justify-center rounded-[12px] bg-danger text-white transition duration-300 shadow-sm hover:shadow-danger/50 hover:-translate-y-0.5 disabled:cursor-default"
                 title="Delete Transaction"
               >
-                <svg className="w-5 h-5 transition-transform duration-400 group-hover/btn:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path className={`transition duration-400 transform origin-bottom-right ${getLidClass()}`} strokeLinecap="round" strokeLinejoin="round" d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m4 0H4" />
+                <svg className="w-5 h-5 transition-transform transform-gpu duration-400 group-hover/btn:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                  <path className={`transition-all duration-400 transform-gpu origin-bottom-right ${getLidClass()}`} strokeLinecap="round" strokeLinejoin="round" d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m4 0H4" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                 </svg>
               </button>
