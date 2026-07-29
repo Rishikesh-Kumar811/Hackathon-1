@@ -81,6 +81,7 @@ const TransactionItem = ({ transaction, onRemove, onUpdate }) => {
       ref={itemRef}
       className={`flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/20 border border-slate-200/50 dark:border-white/5 backdrop-blur-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] transition duration-500 ease-out overflow-hidden group/item
         ${deleteStage >= 4 ? 'max-h-0 opacity-0 py-0 mb-0 border-transparent scale-95 !gap-0' : 'max-h-48 sm:max-h-32 opacity-100 mb-4 scale-100 hover:shadow-[0_8px_20px_rgba(0,0,0,0.04)] dark:hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)] hover:border-slate-300 dark:hover:border-white/10 hover:-translate-y-0.5'}`}
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '0 100px' }}
     >
       <div 
         className={`flex items-start space-x-4 w-full sm:w-auto sm:flex-1 min-w-0 transition duration-500 transform ease-out origin-left
@@ -183,17 +184,17 @@ const TransactionList = () => {
   const transactions = useSelector(selectTransactions);
   const dispatch = useDispatch();
   
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(30);
   const observerRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setVisibleCount((prevCount) => Math.min(prevCount + 10, transactions.length));
+          setVisibleCount((prevCount) => Math.min(prevCount + 30, transactions.length));
         }
       },
-      { threshold: 0.1, rootMargin: '200px' }
+      { threshold: 0.1, rootMargin: '800px' }
     );
 
     if (observerRef.current) {
