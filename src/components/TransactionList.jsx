@@ -73,26 +73,26 @@ const TransactionItem = React.memo(({ transaction, onRemove, onUpdate }) => {
     
     setTimeout(() => {
       setDeleteStage(2);
-    }, 450); 
+    }, 600); 
     
     setTimeout(() => {
       setDeleteStage(3);
-    }, 450 + totalFlightTime + 350); 
+    }, 600 + totalFlightTime + 350); 
     
     setTimeout(() => {
       setDeleteStage(4);
-    }, 450 + totalFlightTime + 350 + 1000); 
+    }, 600 + totalFlightTime + 350 + 1300); 
     
     setTimeout(() => {
       onRemove(transaction.id);
-    }, 450 + totalFlightTime + 350 + 1000 + 750);
+    }, 600 + totalFlightTime + 350 + 1300 + 1050);
   };
 
   return (
     <div 
       ref={itemRef}
-      className={`group/item flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 mb-2 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-700 ease-out transform-gpu overflow-hidden
-        ${deleteStage >= 4 ? 'opacity-0 scale-95 blur-md h-0 mb-0 py-0 border-transparent shadow-none' : 'opacity-100 scale-100 blur-0'}`}
+      className={`group/item flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 mb-2 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-100 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu overflow-hidden
+        ${deleteStage >= 4 ? 'opacity-0 scale-90 blur-lg h-0 mb-0 py-0 border-transparent shadow-none' : 'opacity-100 scale-100 blur-0'}`}
     >
       <style>
         {`

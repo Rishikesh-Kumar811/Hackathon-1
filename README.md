@@ -24,4 +24,13 @@ A fast, lightweight, and modern expense tracking application built for the **She
 Through this hackathon and subsequent optimizations, I learned how to avoid "Prop Drilling" by setting up a centralized Redux Store, utilizing `createSelector` for performance, and managing concurrent rendering features like `useTransition` in modern React to ensure maximum UI responsiveness.
 
 ---
-*Built with ❤️ by Rishikesh Kumar for the Mini Hackathon Challenge.*
+
+### ⏳ A Note on the Hackathon Journey
+> [!NOTE]
+> *This project was built with immense passion for the **Sheryians Coding School Mini Hackathon**. Due to an unforeseen 2-day delay in my schedule, I couldn't officially submit this in time to participate. However, the true victory was independently mastering Redux Toolkit and pushing my boundaries. The learning never stops!* 🚀
+
+---
+<div align="center">
+  <b>Built with ❤️ by Rishikesh Kumar</b><br>
+  <i>"Sometimes the best projects are the ones we build for ourselves."</i>
+</div>
