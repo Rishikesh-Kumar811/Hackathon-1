@@ -1,37 +1,32 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import localforage from 'localforage';
 import transactionsReducer from './transactionSlice';
 
-const loadState = () => {
-  try {
-    const serializedState = localStorage.getItem('fintrack_transactions');
-    if (serializedState === null) {
-      return undefined;
-    }
-    return { transactions: { items: JSON.parse(serializedState) } };
-  } catch (err) {
-    console.error("Could not load state", err);
-    return undefined;
-  }
+localforage.config({
+  name: 'FinanceTrackerDB',
+  storeName: 'transactions'
+});
+
+const persistConfig = {
+  key: 'root',
+  storage: localforage,
+  version: 1,
 };
 
-const saveState = (state) => {
-  try {
-    const serializedState = JSON.stringify(state.transactions.items);
-    localStorage.setItem('fintrack_transactions', serializedState);
-  } catch (err) {
-    console.error("Could not save state", err);
-  }
-};
+const persistedReducer = persistReducer(persistConfig, transactionsReducer);
 
 export const store = configureStore({
   reducer: {
-    transactions: transactionsReducer,
+    transactions: persistedReducer,
   },
-  preloadedState: loadState(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-// Subscribe to store changes to automatically save to localStorage
-// We can use a debounce here in a massive app, but for this it's fine
-store.subscribe(() => {
-  saveState(store.getState());
-});
+export const persistor = persistStore(store);
+

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useTransition } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTransaction } from '../redux/transactionSlice';
-import { PlusCircle, AlertCircle } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
+import { validateTransactionTitle } from '../utils/validation';
+import InputField from './ui/InputField';
 
 const TransactionForm = () => {
   const [text, setText] = useState('');
@@ -9,87 +11,124 @@ const TransactionForm = () => {
   const [type, setType] = useState('');
   const [warning, setWarning] = useState('');
   
+  const titleInputRef = useRef(null);
+  const amountInputRef = useRef(null);
+  const [isPending, startTransition] = useTransition();
+  
   const dispatch = useDispatch();
-
-  const getValidationWarning = (val) => {
-    if (!val) return '';
-    const hasNumbers = /[0-9]/.test(val);
-    const hasSpecialChars = /[^a-zA-Z0-9\s]/.test(val);
-    
-    if (hasNumbers && hasSpecialChars) {
-      return 'Letters only (no numbers or symbols).';
-    } else if (hasNumbers) {
-      return 'Letters only (no numbers).';
-    } else if (hasSpecialChars) {
-      return 'Letters only (no symbols).';
-    }
-    return '';
-  };
 
   const handleTextChange = (e) => {
     const val = e.target.value;
-    setWarning(getValidationWarning(val));
+    setWarning(validateTransactionTitle(val));
     setText(val);
+  };
+
+  const submitForm = () => {
+    if (!text.trim() || !amount || !type || warning || isPending) return;
+
+    startTransition(() => {
+      dispatch(addTransaction({
+        text: text.trim(),
+        amount: parseFloat(amount),
+        type
+      }));
+      setText('');
+      setAmount('');
+      setType('');
+      setWarning('');
+    });
+    
+    
+    if (titleInputRef.current) {
+      titleInputRef.current.focus();
+    }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!text || !amount || !type || warning) return;
+    submitForm();
+  };
 
-    dispatch(addTransaction({
-      text: text.trim(),
-      amount: parseFloat(amount),
-      type
-    }));
+  const handleTitleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      
+      if (!text.trim() || warning) {
+        return;
+      }
+      
+      if (!amount) {
+        amountInputRef.current?.focus();
+        return;
+      }
+      
+      if (!type) {
+        amountInputRef.current?.focus();
+        return;
+      }
+      
+      submitForm();
+    }
+  };
 
-    setText('');
-    setAmount('');
-    setWarning('');
+  const handleAmountKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      
+      if (!text.trim() || warning) {
+        titleInputRef.current?.focus();
+        return;
+      }
+      
+      if (!amount) {
+        return;
+      }
+      
+      if (!type) {
+
+        return; 
+      }
+      
+      submitForm();
+    }
   };
 
   return (
     <section aria-labelledby="transaction-form-heading" className="glass-card p-6 flex flex-col">
       <div>
-        <h2 id="transaction-form-heading" className="text-xl font-bold mb-6 flex items-center text-slate-800 dark:text-slate-100 transition-colors">
-          <PlusCircle aria-hidden="true" className="mr-2 text-primary w-6 h-6" />
+        <h2 id="transaction-form-heading" className="text-xl lg:text-lg xl:text-fluid-xl whitespace-nowrap font-bold mb-6 flex items-center text-slate-800 dark:text-slate-100 transition-colors">
+          <PlusCircle aria-hidden="true" className="mr-2 text-primary w-5 h-5 lg:w-6 lg:h-6" />
           Add New Transaction
         </h2>
         <form id="transaction-form" onSubmit={onSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1 transition-colors">Transaction Title</label>
-            <input
-              id="transaction-title"
-              type="text"
-              className={`input-field ${warning ? 'border-danger focus:border-danger focus:ring-0 bg-danger/5 dark:bg-danger/10' : ''}`}
-              value={text}
-              onChange={handleTextChange}
-              placeholder="e.g. Salary, Groceries..."
-              required
-              aria-invalid={warning ? 'true' : 'false'}
-              aria-describedby={warning ? "transaction-title-error" : undefined}
-            />
-            <div id="transaction-title-error" role="alert" className={`overflow-hidden transition-all duration-300 ease-in-out ${warning ? 'max-h-24 mt-1.5 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="flex items-center gap-1.5 px-1 py-[2px]">
-                <span className="flex items-center justify-center shrink-0 w-4 h-4 translate-y-[0.08px] md:translate-y-0">
-                  <AlertCircle className="w-full h-full text-danger" strokeWidth={2} />
-                </span>
-                <p className="m-0 p-0 pt-[1px] pb-[2px] -translate-y-[1px] md:-translate-y-[0.34px] lg:-translate-y-[1.17px] text-danger text-[13px] font-semibold leading-none tracking-tight whitespace-nowrap">{warning}</p>
-              </div>
-            </div>
-          </div>
+          <InputField
+            id="transaction-title"
+            label="Transaction Title"
+            labelClassName="text-fluid-sm"
+            ref={titleInputRef}
+            type="text"
+            maxLength={25}
+            value={text}
+            onChange={handleTextChange}
+            onKeyDown={handleTitleKeyDown}
+            placeholder="e.g. Salary, Groceries..."
+            required
+            error={warning}
+          />
           
-          <div>
-            <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-1 transition-colors">Amount (₹)</label>
-            <input
-              type="number"
-              step="0.01"
-              className="input-field"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="0.00"
-              required
-            />
-          </div>
+          <InputField
+            id="transaction-amount"
+            label="Amount (₹)"
+            labelClassName="text-sm"
+            type="number"
+            step="0.01"
+            ref={amountInputRef}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            onKeyDown={handleAmountKeyDown}
+            placeholder="0.00"
+            required
+          />
 
           <div>
             <label className="block text-sm font-medium text-slate-600 dark:text-slate-400 mb-2 transition-colors">Type</label>
@@ -113,9 +152,9 @@ const TransactionForm = () => {
         </form>
       </div>
       <div className="mt-8 flex justify-end">
-        <button form="transaction-form" type="submit" disabled={!text.trim() || !amount || !type || !!warning} className="btn-primary inline-flex items-center justify-center gap-2 group w-full sm:w-auto text-[15px] sm:text-[16px] tracking-wide">
-          <span>Save Transaction</span>
-          <PlusCircle className="w-5 h-5 transition-transform duration-500 group-hover:rotate-180 flex-shrink-0" />
+        <button form="transaction-form" type="submit" disabled={!text.trim() || !amount || !type || !!warning || isPending} className={`btn-primary inline-flex items-center justify-center gap-2 group w-full sm:w-auto text-[15px] sm:text-[16px] tracking-wide transform-gpu ${isPending ? 'opacity-70 cursor-not-allowed' : ''}`}>
+          <span>{isPending ? 'Saving...' : 'Save Transaction'}</span>
+          <PlusCircle className={`w-5 h-5 flex-shrink-0 transition-transform duration-500 transform-gpu ${isPending ? 'animate-spin' : 'group-hover:rotate-180'}`} />
         </button>
       </div>
     </section>
@@ -123,3 +162,4 @@ const TransactionForm = () => {
 };
 
 export default TransactionForm;
+

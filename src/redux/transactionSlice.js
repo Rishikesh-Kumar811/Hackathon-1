@@ -1,35 +1,38 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createSelector, createEntityAdapter } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-const initialState = {
-  items: [],
-};
+const transactionsAdapter = createEntityAdapter({
+
+  sortComparer: (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+});
 
 export const transactionsSlice = createSlice({
   name: 'transactions',
-  initialState,
+  initialState: transactionsAdapter.getInitialState(),
   reducers: {
-    addTransaction: (state, action) => {
-      state.items.push({
-        id: uuidv4(),
-        ...action.payload,
-        date: new Date().toISOString(),
-      });
-    },
-    deleteTransaction: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload);
-    },
-    updateTransaction: (state, action) => {
-      const index = state.items.findIndex(item => item.id === action.payload.id);
-      if (index !== -1) {
-        state.items[index] = { ...state.items[index], ...action.payload.changes };
+    addTransaction: {
+      reducer: transactionsAdapter.addOne,
+      prepare: (payload) => {
+        return {
+          payload: {
+            id: uuidv4(),
+            ...payload,
+            date: new Date().toISOString(),
+          }
+        };
       }
     },
+    deleteTransaction: transactionsAdapter.removeOne,
+    updateTransaction: transactionsAdapter.updateOne,
   },
 });
+
 export const { addTransaction, deleteTransaction, updateTransaction } = transactionsSlice.actions;
 
-export const selectTransactions = (state) => state.transactions.items;
+export const {
+  selectAll: selectTransactions,
+  selectById: selectTransactionById,
+} = transactionsAdapter.getSelectors((state) => state.transactions);
 
 export const selectTotals = createSelector(
   [selectTransactions],
@@ -52,3 +55,4 @@ export const selectTotals = createSelector(
 );
 
 export default transactionsSlice.reducer;
+
